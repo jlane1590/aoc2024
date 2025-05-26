@@ -48,5 +48,32 @@ fn main() -> io::Result<()> {
         }
     }
     println!("{:?}", find_cnt);
+
+    find_cnt = 0;
+    for (row_idx, line) in grid.iter().enumerate() {
+        if row_idx <= 0 || row_idx >= grid.len()-1 {
+            continue;
+        }
+        for (col_idx, ch) in line.chars().enumerate() {
+            if col_idx <= 0 || col_idx >= line.len()-1 {
+                continue;
+            }
+            if ch != 'A' {
+                continue;
+            }
+            if ((grid[row_idx-1].chars().nth(col_idx-1).unwrap() == 'M' &&
+                 grid[row_idx+1].chars().nth(col_idx+1).unwrap() == 'S') ||
+                (grid[row_idx-1].chars().nth(col_idx-1).unwrap() == 'S' &&
+                 grid[row_idx+1].chars().nth(col_idx+1).unwrap() == 'M')) &&
+               ((grid[row_idx-1].chars().nth(col_idx+1).unwrap() == 'M' &&
+                 grid[row_idx+1].chars().nth(col_idx-1).unwrap() == 'S') ||
+                (grid[row_idx-1].chars().nth(col_idx+1).unwrap() == 'S' &&
+                 grid[row_idx+1].chars().nth(col_idx-1).unwrap() == 'M')) {
+                    find_cnt += 1;
+               }
+        }
+    }
+    println!("{:?}", find_cnt);
+
     Ok(())
 }
